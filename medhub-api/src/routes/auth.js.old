@@ -1,0 +1,28 @@
+import express from "express";
+import User from "../models/User";
+
+const router =  express.Router();
+
+router.post("/*", (req, res) => {
+	console.log("here I am");
+	const { credentials } = req.body;
+	console.log("credentials " + credentials);
+	console.log("body " + credentials.json());
+	console.log("body " + req.body);
+	User.findOne({ email: credentials.email }).then(user => {
+		if (user) {
+			console.log("inside user");
+		} else {
+			res.status(400).json({ errors: { global: "Invalid Credentials"}});
+			console.log (res.status(400).json({ errors: { global: "Invalid Credentials"}}));
+		}
+	});
+
+});
+
+router.get("/*",(req,res) => {
+	console.log( "in get in auth.js");
+	res.status(200).json({ answer : "good job" });
+});
+
+export default router;
